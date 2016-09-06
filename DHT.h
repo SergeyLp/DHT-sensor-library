@@ -28,27 +28,28 @@ written by Adafruit Industries
   #define DEBUG_PRINTLN(...) {}
 #endif
 
-// Define types of sensors.
-#define DHT11 11
-#define DHT22 22
-#define DHT21 21
-#define AM2301 21
-
+enum SensType {
+    DHT11 = 11,
+    DHT22 = 22,
+    DHT21 = 21,
+    AM2301 = 21
+}; 
 
 class DHT {
   public:
-   DHT(uint8_t pin, uint8_t type, uint8_t count=6);
+   DHT(uint8_t pin, SensType type, uint8_t count=6);
    void begin(void);
    float readTemperature(bool S=false, bool force=false);
-   float convertCtoF(float);
-   float convertFtoC(float);
-   float computeHeatIndex(float temperature, float percentHumidity, bool isFahrenheit=true);
+   static float convertCtoF(float);
+   static float convertFtoC(float);
+   static float computeHeatIndex(float temperature, float percentHumidity, bool isFahrenheit=true);
    float readHumidity(bool force=false);
    boolean read(bool force=false);
+   const SensType _type;
 
  private:
   uint8_t data[5];
-  uint8_t _pin, _type;
+  const uint8_t _pin;
   #ifdef __AVR
     // Use direct GPIO access on an 8-bit AVR so keep track of the port and bitmask
     // for the digital pin connected to the DHT.  Other platforms will use digitalRead.
