@@ -8,9 +8,7 @@ written by Adafruit Industries
 
 #define MIN_INTERVAL 2000
 
-DHT::DHT(uint8_t pin, uint8_t type, uint8_t count) {
-  _pin = pin;
-  _type = type;
+DHT::DHT(uint8_t pin, SensType type, uint8_t count):_pin(pin), _type(type) {
   #ifdef __AVR
     _bit = digitalPinToBitMask(pin);
     _port = digitalPinToPort(pin);
